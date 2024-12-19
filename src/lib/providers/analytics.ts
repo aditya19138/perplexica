@@ -90,6 +90,14 @@ export class AnalyticsModel extends BaseChatModel {
                 stream_output += content;
                 if (stream_output.includes("TERMINATE")) {
                     stream_output = stream_output.replace(/TERMINATE|TER(?:INA(?:TE?)?)?/, "");
+                    const loading = " \n ###Loading Charts ..................";
+                    const chunk = new AIMessageChunk({ content: loading });
+                    const generationChunk = new ChatGenerationChunk({
+                        message: chunk,
+                        text: chunk.content
+                    });
+                    // console.log(generationChunk);
+                    yield generationChunk;
                     clearTimeout(timeout);
                     break;
                 }
